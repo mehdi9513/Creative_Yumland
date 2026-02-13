@@ -85,8 +85,27 @@ header {
 header img {
     width: 100%;
     max-width: 140px;
-    filter: drop-shadow(0 0 10px rgba(248, 224, 66, 0.3));
-    transition: filter 0.3s ease;
+    /* Masque CSS : Utilise la luminance de l'image (clair = opaque, sombre = transparent) */
+    /* Masque CSS désactivé pour restaurer le logo */
+    /* mask-image: url(../images/logo.png); */
+    /* mask-mode: luminance; */
+    /* mask-repeat: no-repeat; */
+    /* mask-size: 100%; */
+    /* -webkit-mask-image: url(../images/logo.png); */
+    /* -webkit-mask-mode: luminance; */
+    /* -webkit-mask-repeat: no-repeat; */
+    /* -webkit-mask-size: 100%; */
+
+    /* On garde une couleur de fond pour voir le logo "découpé" -> désactivé */
+    /* background-color: #f8e042; */
+    /* Jaune Jedi */
+
+    /* L'image elle-même ne doit pas s'afficher, on affiche le background color à travers le masque */
+    /* object-fit: cover; */
+
+    /* Affiche l'image normalement */
+    display: block;
+    object-fit: contain;
 }
 
 header img:hover {
@@ -364,15 +383,121 @@ input {
     overflow: hidden;
     background: transparent;
     border-radius: 20px;
+    position: relative;
+    /* Pour positionner les flèches */
+}
+
+/* Cacher les inputs radio */
+#plats-container input[type="radio"] {
+    display: none;
 }
 
 /* le slider contient 4 slides cote a cote */
 #slider {
     display: flex;
-    /* 4 slides * 100% = 400% */
     width: 400%;
+    /* 4 slides * 100% */
+    transition: transform 0.6s ease-in-out;
+    /* Transition fluide pour le manuel */
+    /* Animation par défaut (active tant qu'aucun bouton n'est cliqué) */
     animation: sliding 16s infinite ease-in-out;
 }
+
+/* Si un slide spécifique est sélectionné, on arrête l'animation */
+#slide1:checked~#slider,
+#slide2:checked~#slider,
+#slide3:checked~#slider,
+#slide4:checked~#slider {
+    animation: none;
+}
+
+/* Positionnement du slider selon le radio checké */
+#slide1:checked~#slider {
+    transform: translateX(0%);
+}
+
+#slide2:checked~#slider {
+    transform: translateX(-25%);
+}
+
+#slide3:checked~#slider {
+    transform: translateX(-50%);
+}
+
+#slide4:checked~#slider {
+    transform: translateX(-75%);
+}
+
+/* --- Flèches de Navigation --- */
+
+.slider-controls label {
+    display: none;
+    /* Cachées par défaut */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #f8e042;
+    border: 2px solid #f8e042;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 100;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.slider-controls label:hover {
+    background: #f8e042;
+    color: #000;
+    box-shadow: 0 0 15px #f8e042;
+}
+
+.slider-controls .prev {
+    left: 20px;
+}
+
+.slider-controls .next {
+    right: 20px;
+}
+
+/* 
+   Logique d'affichage des flèches :
+   Par défaut (animation auto), on n'affiche PAS les flèches pour éviter la confusion
+   car on ne peut pas synchroniser les flèches purement en CSS avec une animation keyframe complexe.
+   
+   Dès que l'utilisateur clique sur la slide (ou interagit), on pourrait afficher les flèches...
+   MAIS pour que ce soit utilisable dès le début, on va tricher :
+   On affiche par défaut les flèches de la Slide 1 sur laquelle commence l'anim.
+   Si l'anim avance, les flèches ne bougent pas (limitations CSS pur).
+   
+   SOLUTION "U.I. FIXE" :
+   On affiche les flèches correspondant à la position "par défaut" (Slide 1).
+   Dès qu'on clique, le radio est checké, et le bon set de flèches apparaît.
+*/
+
+/* Affichage dynamique des flèches selon le slide actif */
+#auto:checked~.slider-controls .slide1-control,
+#slide1:checked~.slider-controls .slide1-control,
+#slide2:checked~.slider-controls .slide2-control,
+#slide3:checked~.slider-controls .slide3-control,
+#slide4:checked~.slider-controls .slide4-control {
+    display: block;
+}
+
+/* 
+   FALLBACK POUR LE DEMARRAGE : 
+   Quand aucun radio n'est explicitement "cliqué" par l'user (mais slide1 est checked par défaut dans le HTML),
+   on affiche les flèches du Slide 1.
+   Le problème c'est que l'anim tourne. Si l'anim est à la slide 3 mais que les flèches sont celles de la slide 1...
+   C'est le compromis du "100% CSS No-JS".
+   
+   L'utilisateur accepte que l'auto s'arrête au clic.
+*/
 
 /* chaque slide fait 1/4 du parent */
 .slide {
@@ -420,7 +545,7 @@ input {
 
     0%,
     20% {
-        transform: translateX(0);
+        transform: translateX(0%);
     }
 
     25%,
@@ -439,7 +564,7 @@ input {
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(0%);
     }
 }
 
@@ -800,4 +925,165 @@ input {
         transform: translateX(1px);
         filter: drop-shadow(0 0 5px rgba(248, 224, 66, 0.2));
     }
+}
+
+/* --- RESPONSIVE HEADER --- */
+
+/* Ecrans Intermédiaires (max-width: 1300px) */
+@media (max-width: 1300px) {
+    header {
+        grid-template-columns: auto 1fr auto;
+        padding: 10px 20px;
+        gap: 15px;
+    }
+
+    nav ul {
+        gap: 10px;
+        padding: 5px 10px;
+    }
+
+    a {
+        font-size: 1rem;
+    }
+
+    .search-input {
+        width: 120px;
+    }
+}
+
+/* Tablettes / Petits Ecrans (max-width: 1100px) */
+@media (max-width: 1100px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+        padding-bottom: 20px;
+        position: relative;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    nav {
+        width: 100%;
+        order: 2;
+    }
+
+    .search-input {
+        width: 200px;
+    }
+}
+
+/* --- Slider Controls & Navigation --- */
+
+/* Ensure controls are positioned correctly */
+/* Note: #plats-container already has position: relative */
+
+#plats-container {
+    position: relative;
+}
+
+/* Force hide radio inputs just in case */
+#plats-container input[type="radio"] {
+    display: none;
+}
+
+/* Container for arrows - centered vertically */
+.slider-controls {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    /* Allow clicks to pass through to slider */
+    z-index: 100;
+    padding: 0 10px;
+    /* Space from edges */
+    box-sizing: border-box;
+}
+
+/* Arrow Styles */
+.arrow {
+    background: rgba(0, 0, 0, 0.6);
+    color: #f8e042;
+    /* Jedi Yellow */
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid #f8e042;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    /* Re-enable clicks on arrows */
+    user-select: none;
+    box-shadow: 0 0 10px rgba(248, 224, 66, 0.3);
+
+    /* Hidden by default, shown selectively */
+    display: none;
+}
+
+.arrow:hover {
+    background: #f8e042;
+    color: #000;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(248, 224, 66, 0.6);
+}
+
+/* Show correct arrows based on Checked Radio */
+/* Logic:
+   Slide 1 Active (or Auto) -> Show arrows pointing to 4 (Prev) and 2 (Next).
+   These are labeled with class .slide1-control in HTML.
+*/
+
+#auto:checked~.slider-controls .slide1-control,
+#slide1:checked~.slider-controls .slide1-control {
+    display: block;
+}
+
+#slide2:checked~.slider-controls .slide2-control {
+    display: block;
+}
+
+#slide3:checked~.slider-controls .slide3-control {
+    display: block;
+}
+
+#slide4:checked~.slider-controls .slide4-control {
+    display: block;
+}
+
+/* Slider Movement Logic */
+
+/* Stop animation when manual controls are used */
+#slide1:checked~#slider,
+#slide2:checked~#slider,
+#slide3:checked~#slider,
+#slide4:checked~#slider {
+    animation: none;
+}
+
+/* Move slider to correct position */
+#slide1:checked~#slider {
+    transform: translateX(0);
+}
+
+#slide2:checked~#slider {
+    transform: translateX(-25%);
+}
+
+#slide3:checked~#slider {
+    transform: translateX(-50%);
+}
+
+#slide4:checked~#slider {
+    transform: translateX(-75%);
 }
