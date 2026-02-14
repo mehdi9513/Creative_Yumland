@@ -1,33 +1,38 @@
+/* accueil.css - page d'accueil */
+
 #logo {
     display: flex;
 
 }
 
-/* === CURSEUR PERSONNALISÉ === */
+/* curseur en forme de viseur */
 body {
     background-color: transparent;
     color: white;
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
-    /* Curseur crosshair blaster par défaut */
     cursor: crosshair;
+    /* curseur en forme de viseur */
 }
 
-/* Curseur rouge lumineux au survol des éléments interactifs */
+/* curseur pointer sur les elements interactifs */
 a,
 button,
 label,
 summary,
 input[type="text"] {
-    cursor: pointer;
+    cursor: crosshair;
 }
 
+/* au survol des liens et boutons */
 a:hover,
 button:hover,
 label:hover {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="8" fill="none" stroke="red" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="red"/><line x1="12" y1="0" x2="12" y2="24" stroke="red" stroke-width="1"/><line x1="0" y1="12" x2="24" y2="12" stroke="red" stroke-width="1"/></svg>') 12 12, pointer;
+    cursor: crosshair;
+    /* curseur en forme de viseur */
 }
 
+/* couleur de selection du texte */
 ::selection {
     background: #f8e042;
     color: #000;
@@ -48,45 +53,73 @@ a:hover {
     color: #f8e042;
 }
 
-/* Lien actif */
+/* lien de la page active en jaune */
 a.active {
     color: #f8e042;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(248, 224, 66, 0.6);
 }
 
+/* --- header (navigation) --- */
+
 header {
     display: grid;
+    /* grid-template-columns : 3 colonnes (logo 200px, nav flexible, droite 320px) */
     grid-template-columns: 200px 1fr 320px;
     align-items: center;
     gap: 20px;
     padding: 15px 30px;
+    /* sticky : le header reste colle en haut quand on scrolle */
     position: sticky;
     top: 0;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    /* z-index 1000 : le header est au dessus de tout le reste */
     z-index: 1000;
+    /* backdrop-filter blur : effet de flou derriere le header (glassmorphism) */
     backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(248, 224, 66, 0.2);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* logo avec effet lumineux au survol */
 header img {
     width: 100%;
     max-width: 140px;
-    filter: drop-shadow(0 0 10px rgba(248, 224, 66, 0.3));
-    transition: filter 0.3s ease;
+    /* Masque CSS : Utilise la luminance de l'image (clair = opaque, sombre = transparent) */
+    /* Masque CSS désactivé pour restaurer le logo */
+    /* mask-image: url(../images/logo.png); */
+    /* mask-mode: luminance; */
+    /* mask-repeat: no-repeat; */
+    /* mask-size: 100%; */
+    /* -webkit-mask-image: url(../images/logo.png); */
+    /* -webkit-mask-mode: luminance; */
+    /* -webkit-mask-repeat: no-repeat; */
+    /* -webkit-mask-size: 100%; */
+
+    /* On garde une couleur de fond pour voir le logo "découpé" -> désactivé */
+    /* background-color: #f8e042; */
+    /* Jaune Jedi */
+
+    /* L'image elle-même ne doit pas s'afficher, on affiche le background color à travers le masque */
+    /* object-fit: cover; */
+
+    /* Affiche l'image normalement */
+    display: block;
+    object-fit: contain;
 }
 
 header img:hover {
     filter: drop-shadow(0 0 20px rgba(248, 224, 66, 0.6));
 }
 
+/* barre de navigation centree */
 nav {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* liste des liens en forme de pilule */
 nav ul {
     list-style: none;
     padding: 0;
@@ -106,7 +139,8 @@ ul li {
     padding: 0;
 }
 
-/* === ESPACE MEMBRE + RECHERCHE (Groupe à droite) === */
+/* --- partie droite du header (boutons + recherche) --- */
+
 .header-right {
     display: flex;
     align-items: center;
@@ -114,6 +148,7 @@ ul li {
     justify-content: flex-end;
 }
 
+/* boutons connexion / inscription */
 .member-space {
     display: flex;
     gap: 8px;
@@ -135,6 +170,7 @@ ul li {
     border: 2px solid transparent;
 }
 
+/* bouton connexion bleu */
 .btn-login {
     background: rgba(0, 100, 255, 0.2);
     color: #00bfff;
@@ -148,6 +184,7 @@ ul li {
     transform: translateY(-2px);
 }
 
+/* bouton inscription jaune */
 .btn-signup {
     background: rgba(248, 224, 66, 0.2);
     color: #f8e042;
@@ -161,6 +198,7 @@ ul li {
     transform: translateY(-2px);
 }
 
+/* etats actifs des boutons */
 .btn-login.active {
     background: rgba(0, 100, 255, 0.4);
     border-color: #00bfff;
@@ -173,12 +211,12 @@ ul li {
     box-shadow: 0 0 20px rgba(248, 224, 66, 0.5);
 }
 
-/* --- Search Bar Design --- */
+/* --- barre de recherche --- */
+
 .search-box {
     display: inline-flex;
     align-items: center;
     background: rgba(255, 255, 255, 0.05);
-    /* Effet verre */
     border: 1px solid rgba(248, 224, 66, 0.3);
     border-radius: 50px;
     padding: 5px 15px;
@@ -187,6 +225,7 @@ ul li {
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+/* :focus-within : s'active quand un enfant du conteneur a le focus */
 .search-box:focus-within {
     border-color: #f8e042;
     box-shadow: 0 0 15px rgba(248, 224, 66, 0.4);
@@ -214,7 +253,7 @@ ul li {
     border: none;
     color: #f8e042;
     font-size: 1.1rem;
-    cursor: pointer;
+    cursor: crosshair;
     transition: transform 0.2s ease;
     padding: 0 5px;
 }
@@ -233,51 +272,52 @@ a:hover {
     color: #f8e042;
 }
 
-/* Style de la vidéo */
+/* --- video de fond --- */
+
+/* video en position fixe qui couvre tout l'ecran */
 #video-bg {
     position: fixed;
-    /* Reste fixe même quand on scrolle */
     right: 0;
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
     width: auto;
     height: auto;
+    /* z-index negatif : la video reste derriere tout le contenu */
     z-index: -2;
-    /* On la met tout au fond, très loin derrière */
+    /* object-fit cover : couvre tout sans deformer */
     object-fit: cover;
-    /* Assure que la vidéo couvre tout sans être déformée */
 }
 
-/* (Optionnel) Style du filtre sombre */
-/* Cela ajoute un voile noir semi-transparent pour qu'on puisse lire ton texte blanc */
-/* L'overlay fixe est désactivé car nous utilisons le fondu de <main> */
+/* overlay desactive car on utilise le degrade du main a la place */
 .overlay {
     display: none;
 }
 
+/* --- contenu principal --- */
+
 main {
     position: relative;
-    /* Dégradé de semi-transparent à noir opaque sur la hauteur du viewport */
+    /* degrade de semi-transparent a noir opaque sur la hauteur du viewport */
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, black 100vh, black 100%);
     z-index: 1;
 }
 
+/* --- section bienvenue --- */
+
 #bienvenue {
     display: flex;
     flex-direction: column;
-    /* Aligner titre et bouton verticalement */
     align-items: center;
     justify-content: center;
+    /* 90vh : prend presque tout l'ecran */
     height: 90vh;
-    /* Prendre presque tout l'écran */
     z-index: 1;
     text-align: center;
 }
 
 #bienvenue h1 {
     font-size: 4rem;
-    /* Plus grand pour l'impact */
     margin-bottom: 30px;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
@@ -288,9 +328,10 @@ input {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    cursor: pointer;
+    cursor: crosshair;
 }
 
+/* bouton "voir la carte" */
 .cta-container {
     display: flex;
     justify-content: center;
@@ -319,9 +360,10 @@ input {
     box-shadow: 0 0 15px rgba(248, 224, 66, 0.4);
 }
 
+/* --- section presentation --- */
+
 #presentation {
     border-bottom: 2px solid rgba(148, 148, 148, 0.521);
-    /* Ligne jaune plus marquée */
     margin: 5vh 0 10vh 0;
     padding: 20px;
     text-align: center;
@@ -329,10 +371,11 @@ input {
 
 #presentation h1 {
     color: #f8e042;
-    /* Titre en jaune */
     text-transform: uppercase;
     letter-spacing: 3px;
 }
+
+/* --- slider de plats --- */
 
 #plats-container {
     max-width: 800px;
@@ -340,19 +383,125 @@ input {
     overflow: hidden;
     background: transparent;
     border-radius: 20px;
-    /* Arrondi pour le conteneur du slider */
+    position: relative;
+    /* Pour positionner les flèches */
 }
 
+/* Cacher les inputs radio */
+#plats-container input[type="radio"] {
+    display: none;
+}
+
+/* le slider contient 4 slides cote a cote */
 #slider {
     display: flex;
     width: 400%;
     /* 4 slides * 100% */
+    transition: transform 0.6s ease-in-out;
+    /* Transition fluide pour le manuel */
+    /* Animation par défaut (active tant qu'aucun bouton n'est cliqué) */
     animation: sliding 16s infinite ease-in-out;
 }
 
+/* Si un slide spécifique est sélectionné, on arrête l'animation */
+#slide1:checked~#slider,
+#slide2:checked~#slider,
+#slide3:checked~#slider,
+#slide4:checked~#slider {
+    animation: none;
+}
+
+/* Positionnement du slider selon le radio checké */
+#slide1:checked~#slider {
+    transform: translateX(0%);
+}
+
+#slide2:checked~#slider {
+    transform: translateX(-25%);
+}
+
+#slide3:checked~#slider {
+    transform: translateX(-50%);
+}
+
+#slide4:checked~#slider {
+    transform: translateX(-75%);
+}
+
+/* --- Flèches de Navigation --- */
+
+.slider-controls label {
+    display: none;
+    /* Cachées par défaut */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #f8e042;
+    border: 2px solid #f8e042;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 100;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.slider-controls label:hover {
+    background: #f8e042;
+    color: #000;
+    box-shadow: 0 0 15px #f8e042;
+}
+
+.slider-controls .prev {
+    left: 20px;
+}
+
+.slider-controls .next {
+    right: 20px;
+}
+
+/* 
+   Logique d'affichage des flèches :
+   Par défaut (animation auto), on n'affiche PAS les flèches pour éviter la confusion
+   car on ne peut pas synchroniser les flèches purement en CSS avec une animation keyframe complexe.
+   
+   Dès que l'utilisateur clique sur la slide (ou interagit), on pourrait afficher les flèches...
+   MAIS pour que ce soit utilisable dès le début, on va tricher :
+   On affiche par défaut les flèches de la Slide 1 sur laquelle commence l'anim.
+   Si l'anim avance, les flèches ne bougent pas (limitations CSS pur).
+   
+   SOLUTION "U.I. FIXE" :
+   On affiche les flèches correspondant à la position "par défaut" (Slide 1).
+   Dès qu'on clique, le radio est checké, et le bon set de flèches apparaît.
+*/
+
+/* Affichage dynamique des flèches selon le slide actif */
+#auto:checked~.slider-controls .slide1-control,
+#slide1:checked~.slider-controls .slide1-control,
+#slide2:checked~.slider-controls .slide2-control,
+#slide3:checked~.slider-controls .slide3-control,
+#slide4:checked~.slider-controls .slide4-control {
+    display: block;
+}
+
+/* 
+   FALLBACK POUR LE DEMARRAGE : 
+   Quand aucun radio n'est explicitement "cliqué" par l'user (mais slide1 est checked par défaut dans le HTML),
+   on affiche les flèches du Slide 1.
+   Le problème c'est que l'anim tourne. Si l'anim est à la slide 3 mais que les flèches sont celles de la slide 1...
+   C'est le compromis du "100% CSS No-JS".
+   
+   L'utilisateur accepte que l'auto s'arrête au clic.
+*/
+
+/* chaque slide fait 1/4 du parent */
 .slide {
     width: 25%;
-    /* Chaque slide fait 1/4 du parent (400%) */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -364,9 +513,9 @@ input {
 .slide img {
     width: 100%;
     max-height: 450px;
+    /* object-fit cover : l'image remplit la zone sans se deformer */
     object-fit: cover;
     border-radius: 30px;
-    /* Bords arrondis pour les images qui défilent */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
 }
@@ -391,11 +540,12 @@ input {
     margin: 0;
 }
 
+/* animation du slider : defilement automatique entre 4 slides */
 @keyframes sliding {
 
     0%,
     20% {
-        transform: translateX(0);
+        transform: translateX(0%);
     }
 
     25%,
@@ -414,11 +564,12 @@ input {
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(0%);
     }
 }
 
-/* --- Section Plat du Jour --- */
+/* --- section plat du jour --- */
+
 #plat-du-jour {
     text-align: center;
     padding: 40px 20px;
@@ -433,12 +584,11 @@ input {
 
 
 
-/* --- Section Incontournables --- */
-/* --- Section Histoire Galactique --- */
+/* --- section histoire galactique --- */
+
 #histoire-galactique {
     padding: 60px 10%;
     margin-top: 100px;
-    /* Ajout d'espace entre les sections */
     background: transparent;
 }
 
@@ -454,6 +604,7 @@ input {
 }
 
 .history-content {
+    /* flex: 2 : prend 2 fois plus de place que les autres flex items */
     flex: 2;
     text-align: left;
 }
@@ -502,7 +653,8 @@ input {
     font-size: 2rem;
 }
 
-/* --- Section Avis Clients (Sci-Fi Dashboard) --- */
+/* --- section avis clients --- */
+
 #avis-clients {
     padding: 80px 5%;
     background: transparent;
@@ -524,6 +676,7 @@ input {
     gap: 30px;
 }
 
+/* carte d'avis avec bordure neon */
 .review-card {
     position: relative;
     width: 350px;
@@ -531,13 +684,13 @@ input {
     background: rgba(0, 20, 40, 0.6);
     border-radius: 15px;
     padding: 2px;
-    /* Pour la bordure néon */
     overflow: hidden;
     transition: transform 0.3s ease;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
 }
 
-/* Bordure néon alternée jaune/cyan */
+/* bordure neon alternee jaune/cyan avec nth-child */
+/* :nth-child(odd/even) : cible les elements pairs ou impairs */
 .review-card:nth-child(odd) {
     background: linear-gradient(135deg, #f8e042 0%, #00ffff 100%);
 }
@@ -550,9 +703,9 @@ input {
     transform: translateY(-10px) scale(1.02);
 }
 
+/* contenu interieur sombre de la carte */
 .card-content {
     background: #000b1a;
-    /* Fond intérieur sombre */
     border-radius: 13px;
     padding: 30px;
     height: 100%;
@@ -561,6 +714,7 @@ input {
     justify-content: space-between;
 }
 
+/* info utilisateur avec avatar */
 .user-info {
     display: flex;
     align-items: center;
@@ -604,6 +758,8 @@ input {
     text-transform: uppercase;
 }
 
+/* --- section plats les plus commandes --- */
+
 #frequents {
     text-align: center;
     padding: 80px 20px;
@@ -633,6 +789,8 @@ input {
     color: #f8e042;
 }
 
+/* --- footer --- */
+
 #main-footer {
     background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.9) 100%);
     padding: 60px 5% 20px 5%;
@@ -651,6 +809,7 @@ input {
 }
 
 .footer-section {
+    /* flex: 1 : chaque section prend la meme largeur */
     flex: 1;
     min-width: 300px;
 }
@@ -681,6 +840,7 @@ input {
     filter: drop-shadow(0 0 5px #f8e042);
 }
 
+/* bouton d'envoi de transmission */
 .transmission {
     display: flex;
     justify-content: center;
@@ -697,7 +857,7 @@ input {
     text-transform: uppercase;
     letter-spacing: 3px;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: crosshair;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 15px rgba(248, 224, 66, 0.2);
 }
@@ -709,6 +869,7 @@ input {
     transform: scale(1.05);
 }
 
+/* section r2d2 */
 .unit-status {
     text-align: right;
     display: flex;
@@ -716,6 +877,7 @@ input {
     align-items: flex-end;
 }
 
+/* image r2d2 avec scintillement */
 .broken-droid {
     width: 100px;
     height: auto;
@@ -742,6 +904,7 @@ input {
     color: rgba(255, 255, 255, 0.4);
 }
 
+/* animation de scintillement holographique */
 @keyframes flicker {
 
     0%,
@@ -762,4 +925,165 @@ input {
         transform: translateX(1px);
         filter: drop-shadow(0 0 5px rgba(248, 224, 66, 0.2));
     }
+}
+
+/* --- RESPONSIVE HEADER --- */
+
+/* Ecrans Intermédiaires (max-width: 1300px) */
+@media (max-width: 1300px) {
+    header {
+        grid-template-columns: auto 1fr auto;
+        padding: 10px 20px;
+        gap: 15px;
+    }
+
+    nav ul {
+        gap: 10px;
+        padding: 5px 10px;
+    }
+
+    a {
+        font-size: 1rem;
+    }
+
+    .search-input {
+        width: 120px;
+    }
+}
+
+/* Tablettes / Petits Ecrans (max-width: 1100px) */
+@media (max-width: 1100px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+        padding-bottom: 20px;
+        position: relative;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    nav {
+        width: 100%;
+        order: 2;
+    }
+
+    .search-input {
+        width: 200px;
+    }
+}
+
+/* --- Slider Controls & Navigation --- */
+
+/* Ensure controls are positioned correctly */
+/* Note: #plats-container already has position: relative */
+
+#plats-container {
+    position: relative;
+}
+
+/* Force hide radio inputs just in case */
+#plats-container input[type="radio"] {
+    display: none;
+}
+
+/* Container for arrows - centered vertically */
+.slider-controls {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    /* Allow clicks to pass through to slider */
+    z-index: 100;
+    padding: 0 10px;
+    /* Space from edges */
+    box-sizing: border-box;
+}
+
+/* Arrow Styles */
+.arrow {
+    background: rgba(0, 0, 0, 0.6);
+    color: #f8e042;
+    /* Jedi Yellow */
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid #f8e042;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    /* Re-enable clicks on arrows */
+    user-select: none;
+    box-shadow: 0 0 10px rgba(248, 224, 66, 0.3);
+
+    /* Hidden by default, shown selectively */
+    display: none;
+}
+
+.arrow:hover {
+    background: #f8e042;
+    color: #000;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(248, 224, 66, 0.6);
+}
+
+/* Show correct arrows based on Checked Radio */
+/* Logic:
+   Slide 1 Active (or Auto) -> Show arrows pointing to 4 (Prev) and 2 (Next).
+   These are labeled with class .slide1-control in HTML.
+*/
+
+#auto:checked~.slider-controls .slide1-control,
+#slide1:checked~.slider-controls .slide1-control {
+    display: block;
+}
+
+#slide2:checked~.slider-controls .slide2-control {
+    display: block;
+}
+
+#slide3:checked~.slider-controls .slide3-control {
+    display: block;
+}
+
+#slide4:checked~.slider-controls .slide4-control {
+    display: block;
+}
+
+/* Slider Movement Logic */
+
+/* Stop animation when manual controls are used */
+#slide1:checked~#slider,
+#slide2:checked~#slider,
+#slide3:checked~#slider,
+#slide4:checked~#slider {
+    animation: none;
+}
+
+/* Move slider to correct position */
+#slide1:checked~#slider {
+    transform: translateX(0);
+}
+
+#slide2:checked~#slider {
+    transform: translateX(-25%);
+}
+
+#slide3:checked~#slider {
+    transform: translateX(-50%);
+}
+
+#slide4:checked~#slider {
+    transform: translateX(-75%);
 }

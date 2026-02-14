@@ -1,4 +1,4 @@
-/* connexion.css - pages connexion et inscription */
+/* notation.css - page d'avis / notation (theme holo-pad) */
 
 /* on retire les marges par defaut */
 * {
@@ -24,9 +24,7 @@ button,
 label,
 summary,
 input[type="text"],
-input[type="password"],
-input[type="email"],
-select {
+textarea {
     cursor: crosshair;
 }
 
@@ -64,6 +62,7 @@ a.active {
 
 /* --- video de fond --- */
 
+/* video en fond fixe qui couvre tout l'ecran */
 #video-bg {
     position: fixed;
     right: 0;
@@ -84,7 +83,7 @@ a.active {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     z-index: -1;
 }
 
@@ -109,7 +108,7 @@ header {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* logo */
+/* logo avec effet lumineux */
 header img {
     width: 100%;
     max-width: 140px;
@@ -121,13 +120,14 @@ header img:hover {
     filter: drop-shadow(0 0 20px rgba(248, 224, 66, 0.6));
 }
 
-/* navigation centree */
+/* barre de navigation centree */
 nav {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* liste des liens en pilule */
 nav ul {
     list-style: none;
     padding: 0;
@@ -147,7 +147,7 @@ ul li {
     padding: 0;
 }
 
-/* --- partie droite du header --- */
+/* --- partie droite du header (boutons + recherche) --- */
 
 .header-right {
     display: flex;
@@ -163,6 +163,7 @@ ul li {
     align-items: center;
 }
 
+/* style des boutons du header */
 .btn-member {
     padding: 6px 14px;
     font-size: 0.8rem;
@@ -178,6 +179,7 @@ ul li {
     border: 2px solid transparent;
 }
 
+/* bouton connexion en bleu */
 .btn-login {
     background: rgba(0, 100, 255, 0.2);
     color: #00bfff;
@@ -191,6 +193,7 @@ ul li {
     transform: translateY(-2px);
 }
 
+/* bouton inscription en jaune */
 .btn-signup {
     background: rgba(248, 224, 66, 0.2);
     color: #f8e042;
@@ -204,6 +207,7 @@ ul li {
     transform: translateY(-2px);
 }
 
+/* etats actifs des boutons */
 .btn-login.active {
     background: rgba(0, 100, 255, 0.4);
     border-color: #00bfff;
@@ -221,7 +225,7 @@ ul li {
     width: 15%;
 }
 
-/* barre de recherche */
+/* barre de recherche arrondie */
 .search-box {
     display: inline-flex;
     align-items: center;
@@ -234,6 +238,7 @@ ul li {
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+/* :focus-within : s'active quand un enfant a le focus */
 .search-box:focus-within {
     border-color: #f8e042;
     box-shadow: 0 0 15px rgba(248, 224, 66, 0.4);
@@ -277,22 +282,21 @@ main {
     position: relative;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.95) 100%);
     min-height: 100vh;
-    /* display flex + center : centre le formulaire au milieu de la page */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 60px 5%;
 }
 
-/* --- formulaire --- */
+/* --- panneau du formulaire (style holo-pad) --- */
 
 .form-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     animation: fadeInUp 0.8s ease-out;
 }
 
-/* animation d'apparition vers le haut */
+/* animation d'apparition du formulaire */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -305,7 +309,7 @@ main {
     }
 }
 
-/* panneau glassmorphism */
+/* panneau avec effet glassmorphism */
 /* backdrop-filter blur : flou derriere le panneau, donne un effet de verre */
 .form-panel {
     background: rgba(0, 20, 40, 0.85);
@@ -317,9 +321,9 @@ main {
         0 0 40px rgba(248, 224, 66, 0.2);
 }
 
-/* titre du formulaire avec animation lumineuse */
+/* titre du formulaire */
 .form-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: #f8e042;
     text-align: center;
     text-transform: uppercase;
@@ -348,12 +352,87 @@ main {
     letter-spacing: 2px;
 }
 
-/* --- champs du formulaire --- */
+/* --- rappel de la commande --- */
 
-.auth-form {
+.order-recall {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+}
+
+.recall-icon {
+    font-size: 2rem;
+}
+
+.recall-info {
     display: flex;
     flex-direction: column;
+    gap: 2px;
+}
+
+.recall-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.recall-id {
+    font-size: 1.1rem;
+    color: #00ffff;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.recall-status {
+    font-size: 0.85rem;
+    color: #00ff88;
+}
+
+/* --- formulaire de notation --- */
+
+.rating-form {
+    display: flex;
+    /* flex-direction column : les champs s'empilent verticalement */
+    flex-direction: column;
     gap: 30px;
+}
+
+/* fieldset sans bordure par defaut */
+.rating-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* legende du fieldset en cyan */
+.rating-legend {
+    font-size: 1.1rem;
+    color: #00ffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-icon {
+    font-size: 1.3rem;
+}
+
+/* texte d'aide sous la legende */
+.rating-hint {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    margin-bottom: 8px;
 }
 
 .form-group {
@@ -371,7 +450,7 @@ main {
     letter-spacing: 2px;
 }
 
-/* champs avec bordure en bas seulement (style minimal) */
+/* champs avec bordure en bas seulement */
 .form-group input,
 .form-group select {
     background: transparent;
@@ -405,65 +484,86 @@ main {
     color: white;
 }
 
-/* --- choix du camp (jedi/sith) avec radio boutons css --- */
+/* --- systeme de notation par etoiles (css pur, sans javascript) --- */
+/* astuce css pour noter sans javascript (trouvé sur internet) */
 
-.radio-group {
+.star-rating {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    /* flex-direction row-reverse : les etoiles sont inversees pour que le ~ fonctionne */
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+    padding: 10px 0;
 }
 
-.radio-label {
-    /* flex: 1 : les deux camps prennent la meme largeur */
-    flex: 1;
-    min-width: 120px;
-}
-
-/* on cache les radio natifs */
-.radio-label input[type="radio"] {
+/* on cache les inputs radio */
+.star-rating input[type="radio"] {
     display: none;
 }
 
-/* bouton radio personnalise */
-.radio-custom {
-    display: block;
-    padding: 15px 20px;
-    border: 2px solid rgba(248, 224, 66, 0.3);
-    border-radius: 10px;
-    text-align: center;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
+/* etoiles en gris par defaut */
+.star-rating label {
+    font-size: 2.2rem;
+    color: rgba(255, 255, 255, 0.2);
     cursor: crosshair;
+    transition: all 0.3s ease;
+    text-shadow: none;
 }
 
-.radio-custom.jedi {
-    background: rgba(0, 100, 255, 0.1);
-    color: #00ffff;
+/* au survol : l'etoile survolee et toutes celles apres deviennent jaunes */
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: #f8e042;
+    text-shadow: 0 0 15px rgba(248, 224, 66, 0.6);
+    transform: scale(1.1);
 }
 
-.radio-custom.sith {
-    background: rgba(255, 0, 0, 0.1);
-    color: #ff4444;
+/* ~ : selecteur de frere, selectionne tous les elements qui suivent */
+/* quand un radio est coche, l'etoile et toutes celles apres deviennent jaunes */
+.star-rating input:checked~label {
+    color: #f8e042;
+    text-shadow: 0 0 10px rgba(248, 224, 66, 0.5);
 }
 
-/* + : selecteur d'element adjacent, le label juste apres le radio */
-/* quand le radio est coche, on met en surbrillance */
-.radio-label input[type="radio"]:checked+.radio-custom {
-    border-color: #f8e042;
-    box-shadow: 0 0 20px rgba(248, 224, 66, 0.5);
-    transform: scale(1.05);
+/* --- zone de commentaire --- */
+
+.comment-area {
+    width: 100%;
+    min-height: 150px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(0, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    outline: none;
+    transition: all 0.3s ease;
+    resize: vertical;
 }
 
-.radio-label input[type="radio"]:checked+.radio-custom.jedi {
-    background: rgba(0, 100, 255, 0.3);
+.comment-area::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+    font-style: italic;
 }
 
-.radio-label input[type="radio"]:checked+.radio-custom.sith {
-    background: rgba(255, 0, 0, 0.3);
+.comment-area:focus {
+    border-color: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    background: rgba(0, 10, 30, 0.5);
 }
 
-/* --- boutons d'envoi --- */
+/* compteur de caracteres */
+.char-counter {
+    text-align: right;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 1px;
+}
+
+/* --- bouton envoyer --- */
 
 .btn-submit {
     margin-top: 20px;
@@ -478,9 +578,25 @@ main {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
+    background: linear-gradient(135deg, #f8e042, #ffa500);
+    color: #000;
+    border: 2px solid #f8e042;
+    box-shadow: 0 0 20px rgba(248, 224, 66, 0.4);
+    width: 100%;
 }
 
-/* effet ripple au survol */
+/* style neon du bouton */
+.btn-neon {
+    box-shadow: 0 0 20px rgba(248, 224, 66, 0.4),
+        0 0 40px rgba(248, 224, 66, 0.1);
+}
+
+.btn-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* ::before : cercle invisible qui grandit au survol (effet ripple) */
 .btn-submit::before {
     content: '';
     position: absolute;
@@ -499,29 +615,8 @@ main {
     height: 300px;
 }
 
-/* bouton jaune (connexion) */
-.btn-yellow {
-    background: linear-gradient(135deg, #f8e042, #ffa500);
-    color: #000;
-    border: 2px solid #f8e042;
-    box-shadow: 0 0 20px rgba(248, 224, 66, 0.4);
-}
-
-.btn-yellow:hover {
+.btn-submit:hover {
     box-shadow: 0 0 40px rgba(248, 224, 66, 0.8);
-    transform: translateY(-3px);
-}
-
-/* bouton cyan (inscription) */
-.btn-cyan {
-    background: linear-gradient(135deg, #00ffff, #00bfff);
-    color: #000;
-    border: 2px solid #00ffff;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-}
-
-.btn-cyan:hover {
-    box-shadow: 0 0 40px rgba(0, 255, 255, 0.8);
     transform: translateY(-3px);
 }
 
@@ -570,6 +665,7 @@ main {
 }
 
 .footer-section {
+    /* flex: 1 : chaque section prend la meme largeur */
     flex: 1;
     min-width: 300px;
 }
@@ -600,6 +696,7 @@ main {
     filter: drop-shadow(0 0 5px #f8e042);
 }
 
+/* bouton de transmission centre */
 .transmission {
     display: flex;
     justify-content: center;
@@ -628,6 +725,7 @@ main {
     transform: scale(1.05);
 }
 
+/* section r2d2 */
 .unit-status {
     text-align: right;
     display: flex;
@@ -635,6 +733,7 @@ main {
     align-items: flex-end;
 }
 
+/* image r2d2 avec effet de scintillement */
 .broken-droid {
     width: 100px;
     height: auto;
@@ -643,7 +742,7 @@ main {
     animation: flicker 4s infinite;
 }
 
-/* animation de scintillement holographique */
+/* animation de scintillement (comme un hologramme) */
 @keyframes flicker {
 
     0%,
@@ -686,33 +785,35 @@ main {
 
 /* --- responsive --- */
 
+/* tablette */
 @media (max-width: 768px) {
     .form-panel {
         padding: 40px 30px;
     }
 
     .form-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
         letter-spacing: 4px;
     }
 
-    .radio-group {
-        flex-direction: column;
-    }
-
-    .radio-label {
-        min-width: 100%;
+    .star-rating label {
+        font-size: 1.8rem;
     }
 }
 
+/* mobile */
 @media (max-width: 480px) {
     .form-panel {
         padding: 30px 20px;
     }
 
     .form-title {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         letter-spacing: 2px;
+    }
+
+    .star-rating label {
+        font-size: 1.5rem;
     }
 
     .btn-submit {

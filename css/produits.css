@@ -1,36 +1,41 @@
-/* === Imports et Réinitialisations === */
+/* produits.css - page de la carte / menu */
+
+/* on retire les marges par defaut */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* === CURSEUR PERSONNALISÉ === */
+/* curseur en forme de viseur */
 body {
     background-color: transparent;
     color: white;
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     overflow-x: hidden;
-    /* Curseur crosshair blaster par défaut */
     cursor: crosshair;
+    /* curseur en forme de viseur */
 }
 
-/* Curseur rouge lumineux au survol des éléments interactifs */
+/* curseur pointer sur les elements interactifs */
 a,
 button,
 label,
 summary,
 input[type="text"] {
-    cursor: pointer;
+    cursor: crosshair;
 }
 
+/* au survol des liens et boutons */
 a:hover,
 button:hover,
 label:hover {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="8" fill="none" stroke="red" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="red"/><line x1="12" y1="0" x2="12" y2="24" stroke="red" stroke-width="1"/><line x1="0" y1="12" x2="24" y2="12" stroke="red" stroke-width="1"/></svg>') 12 12, pointer;
+    cursor: crosshair;
+    /* curseur en forme de viseur */
 }
 
+/* couleur de selection du texte */
 ::selection {
     background: #f8e042;
     color: #000;
@@ -47,29 +52,35 @@ a:hover {
     color: #f8e042;
 }
 
-/* Lien actif */
+/* lien de la page active en jaune */
 a.active {
     color: #f8e042;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(248, 224, 66, 0.6);
 }
 
-/* === Header (Repris de l'accueil) === */
+/* --- header (navigation) --- */
+
 header {
     display: grid;
+    /* grid-template-columns : 3 colonnes (logo 200px, nav flexible, droite 320px) */
     grid-template-columns: 200px 1fr 320px;
     align-items: center;
     gap: 20px;
     padding: 15px 30px;
+    /* sticky : le header reste colle en haut quand on scrolle */
     position: sticky;
     top: 0;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    /* z-index 1000 : le header est au dessus de tout le reste */
     z-index: 1000;
+    /* backdrop-filter blur : effet de flou derriere le header (glassmorphism) */
     backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(248, 224, 66, 0.2);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* logo */
 header img {
     width: 100%;
     max-width: 140px;
@@ -81,6 +92,7 @@ header img:hover {
     filter: drop-shadow(0 0 20px rgba(248, 224, 66, 0.6));
 }
 
+/* navigation centree */
 nav {
     display: flex;
     justify-content: center;
@@ -106,7 +118,8 @@ ul li {
     padding: 0;
 }
 
-/* === ESPACE MEMBRE + RECHERCHE (Groupe à droite) === */
+/* --- partie droite du header --- */
+
 .header-right {
     display: flex;
     align-items: center;
@@ -178,7 +191,7 @@ ul li {
     width: 15%;
 }
 
-/* Search Box dans le header */
+/* barre de recherche dans le header */
 .search-box {
     display: inline-flex;
     align-items: center;
@@ -218,7 +231,7 @@ ul li {
     border: none;
     color: #f8e042;
     font-size: 1.1rem;
-    cursor: pointer;
+    cursor: crosshair;
     transition: transform 0.2s ease;
     padding: 0 5px;
 }
@@ -228,7 +241,8 @@ ul li {
     text-shadow: 0 0 10px #f8e042;
 }
 
-/* === Vidéo de Fond === */
+/* --- video de fond --- */
+
 #video-bg {
     position: fixed;
     right: 0;
@@ -251,7 +265,8 @@ ul li {
     z-index: -1;
 }
 
-/* === Main Container === */
+/* --- contenu principal --- */
+
 main {
     position: relative;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.95) 100%);
@@ -260,12 +275,13 @@ main {
     z-index: 1;
 }
 
-/* === En-tête du Menu === */
+/* en-tete du menu */
 .menu-header {
     text-align: center;
     margin-bottom: 60px;
 }
 
+/* titre avec effet lumineux anime */
 .epic-title {
     font-size: 4rem;
     color: #f8e042;
@@ -296,7 +312,8 @@ main {
     letter-spacing: 2px;
 }
 
-/* === Barre de Recherche Centrée === */
+/* --- barre de recherche centree --- */
+
 .search-bar-container {
     display: flex;
     justify-content: center;
@@ -328,18 +345,21 @@ main {
     background: rgba(0, 30, 60, 0.7);
 }
 
-/* === Radio Buttons Cachés === */
+/* --- filtrage css pur (sans javascript) --- */
+/* astuce css pour filtrer sans javascript (trouvé sur internet) */
+
+/* on cache les boutons radio */
 input[type="radio"][name="filter"] {
     display: none;
 }
 
-/* === Logique de Filtrage CSS Pure (Catégories) === */
-/* Par défaut, tous les produits sont visibles */
+/* par defaut, toutes les cartes produit sont visibles */
 .product-card {
     display: block;
 }
 
-/* Filtres par catégorie */
+/* quand un filtre est coche, on masque les cartes qui ne correspondent pas */
+/* ~ : selecteur de frere, selectionne les elements qui suivent le radio */
 #filter-boissons:checked~.products-grid .product-card:not([data-category="boissons"]) {
     display: none;
 }
@@ -356,23 +376,21 @@ input[type="radio"][name="filter"] {
     display: none;
 }
 
-/* === Nouveaux Filtres de Régime === */
-/* Végétarien : affiche uniquement les produits avec data-diet contenant "vege" */
+/* filtres de regime */
+/* data-diet* : on utilise *= pour verifier si l'attribut contient la valeur */
 #filter-vege:checked~.products-grid .product-card:not([data-diet*="vege"]) {
     display: none;
 }
 
-/* Sans Gluten : affiche uniquement les produits avec data-diet contenant "gluten-free" */
 #filter-gluten-free:checked~.products-grid .product-card:not([data-diet*="gluten-free"]) {
     display: none;
 }
 
-/* Piquant : affiche uniquement les produits avec data-flavor contenant "piquant" */
 #filter-piquant:checked~.products-grid .product-card:not([data-flavor*="piquant"]) {
     display: none;
 }
 
-/* Style actif pour les labels de catégorie */
+/* style du filtre actif */
 #filter-tous:checked~.filters-container label[for="filter-tous"],
 #filter-boissons:checked~.filters-container label[for="filter-boissons"],
 #filter-plats:checked~.filters-container label[for="filter-plats"],
@@ -388,7 +406,8 @@ input[type="radio"][name="filter"] {
         inset 0 0 20px rgba(248, 224, 66, 0.2);
 }
 
-/* === Filtres === */
+/* --- boutons de filtre --- */
+
 .filters-container {
     display: flex;
     justify-content: center;
@@ -408,13 +427,14 @@ input[type="radio"][name="filter"] {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
-    cursor: pointer;
+    cursor: crosshair;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
 }
 
+/* effet ripple au survol du filtre */
 .filter-btn::before {
     content: '';
     position: absolute;
@@ -439,7 +459,7 @@ input[type="radio"][name="filter"] {
     transform: translateY(-3px);
 }
 
-/* Styles spéciaux pour les filtres de régime */
+/* couleurs specifiques pour les filtres de regime */
 .filter-vege {
     background: rgba(34, 139, 34, 0.3);
     border-color: rgba(50, 205, 50, 0.5);
@@ -470,15 +490,18 @@ input[type="radio"][name="filter"] {
     box-shadow: 0 0 25px rgba(255, 69, 0, 0.4);
 }
 
-/* === Grille de Produits === */
+/* --- grille de produits --- */
+
 .products-grid {
     display: grid;
+    /* repeat auto-fill : cree autant de colonnes que possible de 300px minimum */
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 40px;
     padding: 0 20px;
 }
 
-/* === Cartes Produits (Datacards Holographiques) === */
+/* --- cartes produit --- */
+
 .product-card {
     position: relative;
     border-radius: 15px;
@@ -487,6 +510,7 @@ input[type="radio"][name="filter"] {
     opacity: 1;
 }
 
+/* effet de lueur autour de la carte au survol */
 .card-glow {
     position: absolute;
     top: -2px;
@@ -503,6 +527,7 @@ input[type="radio"][name="filter"] {
 
 .product-card:hover .card-glow {
     opacity: 0.6;
+    /* hue-rotate : fait tourner les couleurs en boucle */
     animation: rotateGlow 3s linear infinite;
 }
 
@@ -516,6 +541,7 @@ input[type="radio"][name="filter"] {
     }
 }
 
+/* contenu interne de la carte */
 .card-inner {
     position: relative;
     background: rgba(0, 20, 40, 0.85);
@@ -527,7 +553,7 @@ input[type="radio"][name="filter"] {
     transition: transform 0.5s ease, background 0.3s ease;
 }
 
-/* Changement de fond quand les détails sont ouverts */
+/* :has(details[open]) : change le style quand les details sont ouverts */
 .product-card:has(details[open]) .card-inner {
     background: rgba(0, 30, 60, 0.95);
     border-color: rgba(248, 224, 66, 0.5);
@@ -543,6 +569,7 @@ input[type="radio"][name="filter"] {
 .card-inner img {
     width: 100%;
     height: 250px;
+    /* object-fit cover : l'image remplit la zone sans se deformer */
     object-fit: cover;
     display: block;
     transition: transform 0.5s ease, filter 0.5s ease;
@@ -553,13 +580,14 @@ input[type="radio"][name="filter"] {
     filter: brightness(1.1) contrast(1.1);
 }
 
-/* === Contenu de la Carte === */
+/* contenu texte de la carte */
 .card-content {
     padding: 20px;
     background: linear-gradient(to bottom, rgba(0, 10, 20, 0.9), rgba(0, 20, 40, 0.95));
     position: relative;
 }
 
+/* ligne de separation doree en haut du contenu */
 .card-content::before {
     content: '';
     position: absolute;
@@ -588,13 +616,15 @@ input[type="radio"][name="filter"] {
     min-height: 45px;
 }
 
-/* === FEATURE 1: Details / Summary (Data-Pad) === */
+/* --- details du produit (element html5 details/summary) --- */
+
 .product-details {
     margin-bottom: 15px;
 }
 
+/* bouton "en savoir plus" */
 .details-btn {
-    cursor: pointer;
+    cursor: crosshair;
     color: #00ffff;
     font-size: 0.9rem;
     font-weight: bold;
@@ -610,12 +640,12 @@ input[type="radio"][name="filter"] {
     text-shadow: 0 0 10px rgba(248, 224, 66, 0.8);
 }
 
-/* Masquer le triangle par défaut */
+/* on masque le triangle par defaut de details */
 .details-btn::-webkit-details-marker {
     display: none;
 }
 
-/* Animation d'ouverture avec effet holographique */
+/* contenu qui apparait a l'ouverture */
 .details-content {
     padding: 15px;
     margin-top: 10px;
@@ -627,7 +657,7 @@ input[type="radio"][name="filter"] {
     overflow: hidden;
 }
 
-/* Effet de scanline holographique */
+/* ligne de scan animee (effet holographique) */
 .details-content::before {
     content: '';
     position: absolute;
@@ -678,7 +708,7 @@ input[type="radio"][name="filter"] {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Effet de décryptage sur le texte lore */
+/* texte de l'histoire du plat */
 .details-content .lore {
     color: #00ffff;
     font-style: italic;
@@ -688,7 +718,7 @@ input[type="radio"][name="filter"] {
     position: relative;
 }
 
-/* Animation de glitch/décryptage */
+/* animation de glitch pour l'effet "decryptage" */
 @keyframes holoGlitch {
     0% {
         opacity: 0;
@@ -738,6 +768,7 @@ input[type="radio"][name="filter"] {
     color: #f8e042;
 }
 
+/* prix et bouton d'ajout */
 .price-section {
     display: flex;
     justify-content: space-between;
@@ -752,6 +783,7 @@ input[type="radio"][name="filter"] {
     text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
+/* bouton d'ajout rond */
 .add-btn {
     width: 45px;
     height: 45px;
@@ -761,7 +793,7 @@ input[type="radio"][name="filter"] {
     color: #000;
     font-size: 1.8rem;
     font-weight: bold;
-    cursor: pointer;
+    cursor: crosshair;
     transition: all 0.3s ease;
     box-shadow: 0 0 15px rgba(248, 224, 66, 0.4);
     display: flex;
@@ -779,7 +811,8 @@ input[type="radio"][name="filter"] {
     transform: rotate(90deg) scale(0.95);
 }
 
-/* === HOLO-BADGES === */
+/* --- badges sur les cartes (best-seller, piquant, nouveau) --- */
+
 .holo-badge {
     position: absolute;
     top: 15px;
@@ -790,13 +823,13 @@ input[type="radio"][name="filter"] {
     letter-spacing: 2px;
     text-transform: uppercase;
     z-index: 10;
-    /* Design angulaire avec biseau */
+    /* clip-path : forme biseautee generee avec un outil en ligne */
     clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(5px);
 }
 
-/* Badge BEST-SELLER (Jaune) */
+/* badge best-seller (jaune) */
 .badge-bestseller {
     background: linear-gradient(135deg, #f8e042, #ffa500);
     color: #000;
@@ -806,7 +839,7 @@ input[type="radio"][name="filter"] {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Badge HOT (Rouge clignotant) */
+/* badge piquant (rouge clignotant) */
 .badge-hot {
     background: linear-gradient(135deg, #ff4500, #dc143c);
     color: #fff;
@@ -830,7 +863,7 @@ input[type="radio"][name="filter"] {
     }
 }
 
-/* Badge NOUVEAU (Cyan) */
+/* badge nouveau (cyan) */
 .badge-nouveau {
     background: linear-gradient(135deg, #00ffff, #00bfff);
     color: #000;
@@ -840,7 +873,8 @@ input[type="radio"][name="filter"] {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* === Contenu de la Carte === */
+/* --- footer --- */
+
 #main-footer {
     background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.9) 100%);
     padding: 60px 5% 20px 5%;
@@ -905,7 +939,7 @@ input[type="radio"][name="filter"] {
     text-transform: uppercase;
     letter-spacing: 3px;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: crosshair;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 15px rgba(248, 224, 66, 0.2);
 }
@@ -950,6 +984,7 @@ input[type="radio"][name="filter"] {
     color: rgba(255, 255, 255, 0.4);
 }
 
+/* animation de scintillement holographique */
 @keyframes flicker {
 
     0%,
@@ -972,7 +1007,8 @@ input[type="radio"][name="filter"] {
     }
 }
 
-/* === Responsive Design === */
+/* --- responsive --- */
+
 @media (max-width: 1200px) {
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1012,6 +1048,7 @@ input[type="radio"][name="filter"] {
     }
 
     .products-grid {
+        /* 1fr : une seule colonne sur petit ecran */
         grid-template-columns: 1fr;
         padding: 0 10px;
     }
